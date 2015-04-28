@@ -1,0 +1,41 @@
+#!/bin/sh
+
+NAME="{{ application_name }}"
+DJANGODIR={{ application_path }}
+SOCKFILE=/webapps/run/gunicorn.sock
+USER={{ gunicorn_user }}
+GROUP={{ gunicorn_group }}
+NUM_WORKERS={{ gunicorn_num_workers }}
+
+# Set this to 0 for unlimited requests. During development, you might want to
+# set this to 1 to automatically restart the process on each request (i.e. your
+# code will be reloaded on every request).
+MAX_REQUESTS={{ gunicorn_max_requests }}
+
+echo "Starting $NAME as `whoami`"
+
+# Activate the virtual environment.
+cd $DJANGODIR
+. ../../bin/activate
+
+# Set additional environment variables.
+#. ../../bin/postactivate
+export DATABASE_PASSWORD="password"
+export DJANGO_SETTINGS_MODULE="settings.dev"
+export DJANGO_SECRET_KEY="akr2icmg1n8%z^3fe3c+)5d0(t^cy-2_25rrl35a7@!scna^1#"
+export DATABASE_USER="template"
+
+# Create the run directory if it doesn't exist.
+RUNDIR=$(dirname $SOCKFILE)
+test -d $RUNDIR || mkdir -p $RUNDIR
+
+# Programs meant to be run under supervisor should not daemonize themselves
+# (do not use --daemon).
+exec gunicorn \
+    --name $NAME \
+    --workers $NUM_WORKERS \
+    --max-requests $MAX_REQUESTS \
+    --user $USER --group $GROUP \
+    --log-level debug \
+    --bind unix:$SOCKFILE \
+    {{ application_name }}.wsgi
