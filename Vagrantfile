@@ -13,6 +13,7 @@ Vagrant.configure(2) do |config|
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
   config.vm.box = "precise64"
+  config.vm.box_url = "http://files.vagrantup.com/precise64.box"
   #config.vm.network :forwarded_port, host: 4567, guest: 80
   config.vm.network "private_network", ip: "172.28.128.10"
 
