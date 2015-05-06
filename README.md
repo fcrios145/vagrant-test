@@ -16,7 +16,7 @@ Listo pasos rapidos para instalar la maquina virtual
 `git clone https://github.com/fcrios145/vagrant-test`
 - **Ejecutar vagrant**
 Una vez clonado el repositorio, te posicionas en la carpeta que se creo, puedes usar el comando `cd` de Linux para cambiarte de carpeta.
-`vagrant up`
+`vagrant up --provider virtualbox`
 Este paso bajara un sistema operativo (ubuntu 12.04 de 64 bits) en caso de que no lo tengas, se bajara solo una sola vez, por si en un futuro se quieren más maquinas virtuales con el mismo sistema.
 Una vez bajado, instalara todos los paquetes necesarios para funcionar que incluyen
 - Postgresql
