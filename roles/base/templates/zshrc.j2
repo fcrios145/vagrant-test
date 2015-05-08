@@ -79,6 +79,6 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-source /webapps/template/bin/activate
-source /webapps/template/bin/postactivate
-cd /webapps/template
+source /webapps/{{ application_name }}/bin/activate
+source /webapps/{{ application_name }}/bin/postactivate
+cd /webapps/{{ application_name }}
