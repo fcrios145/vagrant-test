@@ -1,0 +1,17 @@
+#!/bin/sh
+
+NAME="{{ application_name }}"
+DJANGODIR={{ application_path }}
+
+echo "Starting $NAME as `whoami`"
+
+# Activate the virtual environment.
+cd $DJANGODIR
+. ../../bin/activate
+
+# Set additional environment variables.
+#. ../../bin/postactivate
+export DATABASE_PASSWORD="password"
+export DJANGO_SETTINGS_MODULE="settings.dev"
+export DJANGO_SECRET_KEY="akr2icmg1n8%z^3fe3c+)5d0(t^cy-2_25rrl35a7@!scna^1#"
+export DATABASE_USER="template"

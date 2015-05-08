@@ -34,3 +34,16 @@
 - name: Install virtualenv
   pip: name=virtualenv
   tags: packages
+
+- name: Install oh-my-zsh
+  git: repo=https://github.com/robbyrussell/oh-my-zsh.git
+       dest=~/.oh-my-zsh
+  remote_user: vagrant
+  sudo: false
+
+- name: Copy .zshrc template
+  # command: cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc
+  template: src=zshrc.j2
+            dest=/home/vagrant/.zshrc
+  remote_user: vagrant
+  sudo: false
