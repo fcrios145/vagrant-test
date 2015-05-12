@@ -47,3 +47,17 @@
             dest=/home/vagrant/.zshrc
   remote_user: vagrant
   sudo: false
+
+- name: Add repo NPM
+  sudo: yes
+  apt_repository: repo='ppa:chris-lea/node.js'
+
+- name: Install nodejs
+  apt: name=nodejs state=latest update_cache=yes
+
+- name: Install bower
+  npm: name=bower global=yes
+
+- name: Install bower dependencies
+  bower: path={{ project_path }} state=present
+  sudo: false
