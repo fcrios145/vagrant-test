@@ -40,7 +40,7 @@ Vagrant.configure(2) do |config|
   # the path on the host to the actual folder. The second argument is
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
-  config.vm.synced_folder "./app", "/webapps/template", create: true
+  config.vm.synced_folder "./app", "/webapps/panel_ayuda", create: true
   #   owner: "template", group: "webapps"
 
   # Provider-specific configuration so you can fine-tune various
@@ -73,7 +73,7 @@ Vagrant.configure(2) do |config|
   #   wget --no-check-certificate https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh
   #   sudo chsh -s /bin/zsh vagrant
   # SHELL
-  # config.vm.provision :shell, path: "bootstrap.sh"
+   config.vm.provision :shell, path: "bootstrap.sh"
    # Ansible provisioner.
   config.vm.provision "ansible" do |ansible|
     ansible.playbook = "vagrant.yml"

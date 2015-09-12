@@ -25,6 +25,7 @@
     - python-pip
     - python-pycurl
     - supervisor
+    - vim
   tags: packages
 
 - name: Install newrelic
@@ -55,9 +56,11 @@
 - name: Install nodejs
   apt: name=nodejs state=latest update_cache=yes
 
-- name: Install bower
+- name: Install yuglify
+  npm: name=yuglify global=yes
+
+- name: Install Bower
   npm: name=bower global=yes
 
-- name: Install bower dependencies
-  bower: path={{ project_path }} state=present
-  sudo: false
+- name: Install Uglify
+  npm: name=uglify-js global=yes

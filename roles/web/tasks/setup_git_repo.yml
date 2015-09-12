@@ -10,3 +10,15 @@
   args:
     chdir: "{{ project_path }}"
   tags: git
+
+- name: Ensure that the application file permissions are set properly
+  file: path=/webapps
+        recurse=yes
+        owner={{ gunicorn_user }}
+        group={{ gunicorn_group }}
+        state=directory
+  notify: restart application
+
+- name: Install bower dependencies
+  bower: path={{ project_path }} state=present
+  sudo: false
