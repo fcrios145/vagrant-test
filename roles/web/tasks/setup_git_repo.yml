@@ -1,9 +1,35 @@
 ---
+- name: Creates directory
+  file: path=/root/.ssh state=directory
+
+#- name: send key to remote deploy user
+  #copy: src=files/private_key dest=/home/{{application_name}}/.ssh/priv_key
+
+#- name: jajatl
+  #copy: src=files/config dest=/home/{{application_name}}/.ssh/config
+
+#- name: Setup the Git repo
+  #git: repo={{ git_repo }} dest={{ project_path }} accept_hostkey=yes key_file=~/{{application_name}}/.ssh/priv_key
+  #sudo_user: vagrant
+  #when: setup_git_repo
+  #tags: git
+
+- name: Create the Github SSH public key file
+  copy: src="files/public_key"
+        dest="/root/.ssh/id_rsa.pub"
+        mode=0644
+
+- name: Create the Github SSH private key file
+  copy: src="files/private_key"
+        dest="/root/.ssh/id_rsa"
+        mode=0600
 
 - name: Setup the Git repo
-  git: repo={{ git_repo }} dest={{ project_path }} accept_hostkey=yes
-  when: setup_git_repo
-  tags: git
+  git: repo={{ git_repo }}
+       version={{ git_branch }}
+       dest={{ project_path }}
+       accept_hostkey=True
+       key_file="/root/.ssh/id_rsa"
 
 - name: Delete all .pyc files
   command: find . -name '*.pyc' -delete

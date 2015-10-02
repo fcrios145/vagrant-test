@@ -17,6 +17,8 @@ Vagrant.configure(2) do |config|
   #config.vm.network :forwarded_port, host: 4567, guest: 80
   config.vm.network "private_network", ip: "172.28.128.10"
 
+  config.ssh.forward_agent = true
+
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
   # `vagrant box outdated`. This is not recommended.
@@ -40,7 +42,7 @@ Vagrant.configure(2) do |config|
   # the path on the host to the actual folder. The second argument is
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
-  config.vm.synced_folder "./app", "/webapps/panel_ayuda", create: true
+  config.vm.synced_folder "./app", "/webapps/blag_plax", create: true
   #   owner: "template", group: "webapps"
 
   # Provider-specific configuration so you can fine-tune various
@@ -73,15 +75,15 @@ Vagrant.configure(2) do |config|
   #   wget --no-check-certificate https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh
   #   sudo chsh -s /bin/zsh vagrant
   # SHELL
-   config.vm.provision :shell, path: "bootstrap.sh"
    # Ansible provisioner.
   config.vm.provision "ansible" do |ansible|
     ansible.playbook = "vagrant.yml"
     ansible.sudo = true
     ansible.host_key_checking = false
-    ansible.verbose =  'v'
+    ansible.verbose =  'vvvv'
     ansible.extra_vars = { ansible_ssh_user: 'vagrant',
                    ansible_connection: 'ssh',
                    ansible_ssh_args: '-o ForwardAgent=yes'}
   end
+  config.vm.provision :shell, path: "bootstrap.sh"
 end

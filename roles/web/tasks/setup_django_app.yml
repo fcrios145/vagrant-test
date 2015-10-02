@@ -23,15 +23,15 @@
   when: run_django_migration
   tags: django.migrate
 
-- name: Run Django collectstatic
-  django_manage:
-    command: collectstatic
-    app_path: "{{ application_path }}"
-    virtualenv: "{{ virtualenv_path }}"
-    settings: "{{ django_settings_file }}"
-  environment: django_environment
-  when: run_django_collectstatic
-  tags: django.collectstatic
+#- name: Run Django collectstatic
+  #django_manage:
+    #command: collectstatic
+    #app_path: "{{ application_path }}"
+    #virtualenv: "{{ virtualenv_path }}"
+    #settings: "{{ django_settings_file }}"
+  #environment: django_environment
+  #when: run_django_collectstatic
+  #tags: django.collectstatic
 
 # - name: Run django en modo desarrollo
 #   django_manage:

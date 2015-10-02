@@ -1,8 +1,12 @@
 ---
 
+- include: connection_postgresql.yml
+
 - include: create_users_and_groups.yml
 
 - include: setup_virtualenv.yml
+
+#- include: git_ssh.yml
 
 - include: setup_git_repo.yml
 
