@@ -42,7 +42,7 @@ Vagrant.configure(2) do |config|
   # the path on the host to the actual folder. The second argument is
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
-  config.vm.synced_folder "./app", "/webapps/blag_plax", create: true
+  config.vm.synced_folder "./app", "/webapps/blag_plax", create: true, nfs: true
   #   owner: "template", group: "webapps"
 
   # Provider-specific configuration so you can fine-tune various
@@ -54,7 +54,24 @@ Vagrant.configure(2) do |config|
     vb.gui = false
 
     # Customize the amount of memory on the VM:
-    vb.memory = "1024"
+    #vb.memory = "1024"
+	host = RbConfig::CONFIG['host_os']
+
+	# Give VM 1/4 system memory 
+	if host =~ /darwin/
+		# sysctl returns Bytes and we need to convert to MB
+		mem = `sysctl -n hw.memsize`.to_i / 1024
+	elsif host =~ /linux/
+		# meminfo shows KB and we need to convert to MB
+		mem = `grep 'MemTotal' /proc/meminfo | sed -e 's/MemTotal://' -e 's/ kB//'`.to_i 
+	elsif host =~ /mswin|mingw|cygwin/
+		# Windows code via https://github.com/rdsubhas/vagrant-faster
+		mem = `wmic computersystem Get TotalPhysicalMemory`.split[1].to_i / 1024
+	end
+
+	mem = mem / 1024 / 4
+	vb.customize ["modifyvm", :id, "--memory", mem]
+
   end
   #
   # View the documentation for the provider you are using for more
